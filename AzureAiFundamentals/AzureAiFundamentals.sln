@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContentModeration", "ContentModeration", "{6DCAD018-C053-49AF-9B9D-5BC769B076C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAI.ContentModeration.Core", "AzureAI.ContentModeration.Core\AzureAI.ContentModeration.Core.csproj", "{CFD0FB3C-D985-4C19-888F-17F71024A408}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{67891A7C-CFC8-4390-A7E2-F4532D501456}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{1935615E-DD76-407F-8ACE-D9D0AEF64913}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{D6BE5859-82FC-4177-83E3-300500EBA153}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAI.ContentModeration.Text", "AzureAI.ContentModeration.Text\AzureAI.ContentModeration.Text.csproj", "{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFD0FB3C-D985-4C19-888F-17F71024A408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD0FB3C-D985-4C19-888F-17F71024A408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD0FB3C-D985-4C19-888F-17F71024A408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD0FB3C-D985-4C19-888F-17F71024A408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DCAD018-C053-49AF-9B9D-5BC769B076C2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CFD0FB3C-D985-4C19-888F-17F71024A408} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
+		{D6BE5859-82FC-4177-83E3-300500EBA153} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
+		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {579AC858-639A-4992-8C7F-3EE93FF9EDAB}
+	EndGlobalSection
+EndGlobal
