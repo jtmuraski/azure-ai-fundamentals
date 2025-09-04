@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -17,6 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{D6BE58
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAI.ContentModeration.Text", "AzureAI.ContentModeration.Text\AzureAI.ContentModeration.Text.csproj", "{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{F0EB1926-F289-441A-8422-D9B5AD467865}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAI.Core", "AzureAI.Core\AzureAI.Core.csproj", "{1C018C42-1313-4F9C-9C29-989F9583FF98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{6725D64C-7835-4BD4-A1B6-0C1CE66AD549}"
+	ProjectSection(SolutionItems) = preProject
+		AzureAI.Core\IAzureConfig.cs = AzureAI.Core\IAzureConfig.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +40,10 @@ Global
 		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C018C42-1313-4F9C-9C29-989F9583FF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C018C42-1313-4F9C-9C29-989F9583FF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C018C42-1313-4F9C-9C29-989F9583FF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C018C42-1313-4F9C-9C29-989F9583FF98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +53,9 @@ Global
 		{CFD0FB3C-D985-4C19-888F-17F71024A408} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
 		{D6BE5859-82FC-4177-83E3-300500EBA153} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
 		{ADED6B91-64D4-46AD-9EDE-724ADD1D59F5} = {6DCAD018-C053-49AF-9B9D-5BC769B076C2}
+		{F0EB1926-F289-441A-8422-D9B5AD467865} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1C018C42-1313-4F9C-9C29-989F9583FF98} = {F0EB1926-F289-441A-8422-D9B5AD467865}
+		{6725D64C-7835-4BD4-A1B6-0C1CE66AD549} = {F0EB1926-F289-441A-8422-D9B5AD467865}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {579AC858-639A-4992-8C7F-3EE93FF9EDAB}
