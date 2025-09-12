@@ -10,10 +10,11 @@ namespace AzureAI.Core
     public class AzureConfig : IAzureConfig
     {
         // Properties
-        const string keyUrl = "https://kv-azure-fundys-jtm.vault.azure.net/";
+        private static readonly string keyUrl = Environment.GetEnvironmentVariable("AZURE_KEYVAULT_URL")
+                                                ?? throw new InvalidOperationException("AZURE_KEYVAULT_URL environment variable not set");
 
-        public string ApiKey { get; set; }
-        public string ApiEndpoint { get; set; }
+        public string? ApiKey { get; set; }
+        public string? ApiEndpoint { get; set; }
 
         public static async Task<AzureConfig> GetApiCredentialsAsync(string apiKeySecretName, string apiEndpointSecretName)
         {
