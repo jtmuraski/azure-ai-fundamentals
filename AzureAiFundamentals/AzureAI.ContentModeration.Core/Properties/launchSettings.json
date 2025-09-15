@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AzureAI.ContentModeration.Core": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AZURE_KEYVAULT_URL": "https://kv-azure-fundys-jtm.vault.azure.net/"
+      }
+    }
+  }
+}

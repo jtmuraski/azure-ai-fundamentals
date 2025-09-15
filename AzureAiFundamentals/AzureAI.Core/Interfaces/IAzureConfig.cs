@@ -1,4 +1,4 @@
-﻿namespace AzureAI.Core
+﻿namespace AzureAI.Core.Interfaces
 {
     public interface IAzureConfig
     {
