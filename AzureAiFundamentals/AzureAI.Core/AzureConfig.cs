@@ -12,7 +12,7 @@ namespace AzureAI.Core
     public class AzureConfig : IAzureSecretService
     {
         // Properties
-        private static readonly string keyUrl = Environment.GetEnvironmentVariable("AZURE_KEYVAULT_URL") ?? 
+        private static readonly string keyUrl = Environment.GetEnvironmentVariable("AZURE_KEYVAULT_URL") ??
                                                 throw new ArgumentNullException("KEY_VAULT_URL environment variable is not set.");
 
         public string? ApiKey { get; set; }
@@ -21,7 +21,7 @@ namespace AzureAI.Core
         public async Task<string> GetSecretAsync(string secretName)
         {
             var client = new SecretClient(new Uri(keyUrl), new Azure.Identity.DefaultAzureCredential());
-            return (await client.GetSecretAsync(apiKeySecretName)).Value.Value;
+            return (await client.GetSecretAsync(secretName)).Value.Value;
         }
 
         public async Task<Dictionary<string, string>> GetSecretsAsync(IEnumerable<string> secretNames)
@@ -29,7 +29,7 @@ namespace AzureAI.Core
             var secrets = new Dictionary<string, string>();
             foreach (var name in secretNames)
             {
-                var secretValue = await GetSecretFromKeyVaultAsync(name);
+                var secretValue = await GetSecretAsync(name);
                 if (secretValue != null && !secrets.ContainsKey(name))
                 {
                     secrets.Add(name, secretValue);
@@ -37,4 +37,5 @@ namespace AzureAI.Core
             }
             return secrets;
         }
+    }
 }

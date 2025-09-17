@@ -36,7 +36,9 @@ namespace AzureAI.Core
             try
             {
                 _logger.LogInformation($"Retrieving secret '{secretName}' from Key Vault.");
+
                 var response = await _client.GetSecretAsync(secretName);
+
                 _logger.LogInformation($"Successfully retrieved secret '{secretName}' from Key Vault.");
                 return response.Value.Value;
             }
