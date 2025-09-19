@@ -31,6 +31,8 @@ namespace AzureAI.Core
             _client = client;
         }
 
+
+        // ---Async Methods---
         public async Task<string> GetSecretAsync(string secretName)
         {
             try
@@ -57,6 +59,41 @@ namespace AzureAI.Core
             {
                 _logger.LogInformation($"Retrieving secret '{name}' from Key Vault.");
                 var secretValue = await GetSecretAsync(name);
+                if (secretValue != null && !secrets.ContainsKey(name))
+                {
+                    secrets.Add(name, secretValue);
+                }
+            }
+            _logger.LogInformation($"Successfully retrieved {secrets.Count} secrets from Key Vault.");
+            return secrets;
+        }
+
+        // --Sequential versions of the methods for scenarios where async is not needed--
+        public string GetSecret(string secretName)
+        {
+            try
+            {
+                _logger.LogInformation($"Retrieving secret '{secretName}' from Key Vault.");
+
+                var response = _client.GetSecret(secretName);
+
+                _logger.LogInformation($"Successfully retrieved secret '{secretName}' from Key Vault.");
+                return response.Value.Value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving secret '{secretName}': {ex.Message}");
+                throw;
+            }
+        }
+        public Dictionary<string, string> GetSecrets(IEnumerable<string> secretNames)
+        {
+            var secrets = new Dictionary<string, string>();
+            _logger.LogInformation($"There are {secretNames.Count()} secrets to retrieve from Key Vault.");
+            foreach (var name in secretNames)
+            {
+                _logger.LogInformation($"Retrieving secret '{name}' from Key Vault.");
+                var secretValue = GetSecret(name);
                 if (secretValue != null && !secrets.ContainsKey(name))
                 {
                     secrets.Add(name, secretValue);

@@ -7,65 +7,108 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Azure.AI.ContentSafety;
 using Azure;
+using Spectre.Console;
+using Serilog;
+using Figgle;
+using Figgle.Fonts;
+using ContentModeration.Console;
+using static ContentModeration.Console.ConsoleTextModeration;
+
+// ---Set up Logging---
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("logs/;pg.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 using var loggerFactory = LoggerFactory.Create(builder =>
 {
-    builder.AddConsole();
+    builder.AddSerilog();
 });
 ILogger<Program> logger = loggerFactory.CreateLogger<Program>();
 ILogger<SecretService> secretLogger = loggerFactory.CreateLogger<SecretService>();
+ILogger<ConsoleTextModeration> cmLogger = loggerFactory.CreateLogger<ConsoleTextModeration>();
 
-
-// Get the necessary secrets from Azure Key Vault for logging into the service
-Console.WriteLine("Getting Key Vaule login inforation...");
+// ---Get Azure Secrets---
 string keyName = "ContentModerator-ApiKey";
 string endpointName = "ContentModerator-Endpoint";
 var secretService = new SecretService(secretLogger);
 Dictionary<string, string> secretValues = new Dictionary<string, string>();
-try
-{
-    secretValues = await secretService.GetSecretsAsync(new List<string> { keyName, endpointName });
-}
-catch (Exception ex)
-{
-    logger?.LogError($"Error retrieving secrets: {ex.Message}");
-    throw;
-}
 
-Console.WriteLine("Key Vaule login inforation retrieved successfully.");
+// ---Global Variables and Properties---
+ConsoleTextModeration? textModeration = null;
 
-// Get the text that is to be evaluated
-Console.WriteLine("Input text to be evaluated:");
-string inputText = string.Empty;
-while(string.IsNullOrWhiteSpace(inputText))
-{
-    inputText = Console.ReadLine();
-    if (string.IsNullOrWhiteSpace(inputText))
+// --Set up Console---
+FiggleFont figgle = FiggleFonts.Georgia11;
+
+AnsiConsole.Write(figgle.Render("Content Safety Example"));
+
+AnsiConsole.Status()
+    .Start("Starting Application...", ctx =>
     {
-        Console.WriteLine("Input cannot be empty. Please enter text to be evaluated:");
+        ctx.Status("Setting up logs");
+        ctx.Status("Logging into Azure");
+        try
+        {
+            secretValues = secretService.GetSecrets(new List<string> { keyName, endpointName });
+            textModeration = new ConsoleTextModeration(secretValues[keyName], secretValues[endpointName], cmLogger);
+        }
+        catch (Exception ex)
+        {
+            logger?.LogError($"Error retrieving secrets: {ex.Message}");
+            throw;
+        }
+        ctx.Status("Logged in Successfully!");
+        Thread.Sleep(1000);
+    });
+AnsiConsole.Clear();
+
+bool continueApp = true;
+while(continueApp)
+{
+    AnsiConsole.Write(figgle.Render("Content Safety Example"));
+    AnsiConsole.WriteLine("Please choose an option below to continue.");
+
+    var choice = AnsiConsole.Prompt(
+        new SelectionPrompt<string>()
+            .Title("Choose an option:")
+            .PageSize(10)
+            .AddChoices(new[] {
+                "1. Moderate Text",
+                "9. Exit"
+            }));
+    switch (choice)
+    {
+        case "1. Moderate Text":
+            textModeration.ModerateTextWithoutBlockList();
+            break;
+        case "9. Exit":
+            continueApp = false;
+            break;
+    }
+    if (continueApp)
+    {
+        var again = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Do you want to perform another operation?")
+                .AddChoices(new[] { "Yes", "No" }));
+        if (again == "No")
+        {
+            continueApp = false;
+        }
+        else
+        {
+            AnsiConsole.Clear();
+        }
     }
 }
 
-// Evaluat the text and display the results
-ContentSafetyClient client = new ContentSafetyClient(new Uri(secretValues[endpointName]), new Azure.AzureKeyCredential(secretValues[keyName]));
 
-var request = new AnalyzeTextOptions(inputText);
-Response<AnalyzeTextResult> response;
-try
-{
-    response = await client.AnalyzeTextAsync(request);
-}
-catch(Exception ex)
-{
-       logger?.LogError($"Error analyzing text: {ex.Message}");
-    throw;
-}
 
-Console.WriteLine("Content Safety Analysis Result:");
-Console.WriteLine("Hate severity: {0}", response.Value.CategoriesAnalysis.FirstOrDefault(a => a.Category == TextCategory.Hate)?.Severity ?? 0);
-Console.WriteLine("SelfHarm severity: {0}", response.Value.CategoriesAnalysis.FirstOrDefault(a => a.Category == TextCategory.SelfHarm)?.Severity ?? 0);
-Console.WriteLine("Sexual severity: {0}", response.Value.CategoriesAnalysis.FirstOrDefault(a => a.Category == TextCategory.Sexual)?.Severity ?? 0);
-Console.WriteLine("Violence severity: {0}", response.Value.CategoriesAnalysis.FirstOrDefault(a => a.Category == TextCategory.Violence)?.Severity ?? 0);
-Console.ReadLine();
+
+
+
+
+
+
+
 
 
