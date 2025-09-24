@@ -37,7 +37,7 @@ Dictionary<string, string> secretValues = new Dictionary<string, string>();
 ConsoleTextModeration? textModeration = null;
 
 // --Set up Console---
-FiggleFont figgle = FiggleFonts.Georgia11;
+FiggleFont figgle = FiggleFonts.Ogre;
 
 AnsiConsole.Write(figgle.Render("Content Safety Example"));
 
@@ -83,21 +83,6 @@ while(continueApp)
         case "9. Exit":
             continueApp = false;
             break;
-    }
-    if (continueApp)
-    {
-        var again = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Do you want to perform another operation?")
-                .AddChoices(new[] { "Yes", "No" }));
-        if (again == "No")
-        {
-            continueApp = false;
-        }
-        else
-        {
-            AnsiConsole.Clear();
-        }
     }
 }
 

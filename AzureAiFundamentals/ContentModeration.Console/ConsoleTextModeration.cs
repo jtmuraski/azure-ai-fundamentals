@@ -24,6 +24,37 @@ namespace ContentModeration.Console
             _logger = logger;
         }
 
+        public void StartNewTextModeration()
+        {
+            AnsiConsole.Clear();
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Choose a text moderation option:")
+                    .PageSize(10)
+                    .AddChoices(new[] {
+                        "Moderate Text with Block List",
+                        "Moderate Text without Block List",
+                        "Return to Main Menu"
+                    }));
+            switch (choice)
+            {
+                case "Moderate Text with Block List":
+                    ModerateTextWithBlockList();
+                    break;
+                case "Moderate Text without Block List":
+                    ModerateTextWithoutBlockList();
+                    break;
+                case "Return to Main Menu":
+                    AnsiConsole.Clear();
+                    return;
+            }
+        }
+
+        private void ModerateTextWithBlockList()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ModerateTextWithoutBlockList()
         {
             AnsiConsole.Clear();
@@ -54,7 +85,10 @@ namespace ContentModeration.Console
             
 
 
-            AnsiConsole.WriteLine("Press any key to return to the main menu.");
+            AnsiConsole.Prompt<string>(
+                new TextPrompt<string>("Press [green]Enter[/] to return to the main menu")
+                    .AllowEmpty());
+            AnsiConsole.Clear();
         }
     }
 }
