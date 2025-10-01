@@ -10,6 +10,7 @@ using Spectre.Console;
 using Serilog;
 using Figgle;
 using Figgle.Fonts;
+using AzureAI.ContentModeration.Text.Models;
 
 namespace ContentModeration.Console
 {
@@ -57,8 +58,10 @@ namespace ContentModeration.Console
 
         public void ModerateTextWithoutBlockList()
         {
+            TextModerationInstance instance = new TextModerationInstance();
+
             AnsiConsole.Clear();
-            string input = AnsiConsole.Prompt(
+            instance.TextToModerate = AnsiConsole.Prompt(
                 new TextPrompt<string>("Please enter the text you would like to moderate:")
                     .PromptStyle("green")
                     .ValidationErrorMessage("[red]That's not a valid input[/]")
@@ -67,15 +70,29 @@ namespace ContentModeration.Console
                         return text.Length > 0;
                     }));
             AnsiConsole.WriteLine("Moderating text...");
-            _logger.LogInformation($"Beginning text moderation. Input text: {input}");
+            _logger.LogInformation($"Beginning text moderation. Input text: {instance.TextToModerate}");
 
             try
             {
-                var response = _client.AnalyzeText(input);
-                foreach (var value in response.Value.CategoriesAnalysis)
-                {
-                    AnsiConsole.WriteLine($"Category: {value.Category}, Severity: {value.Severity}");
-                }
+                var response = _client.AnalyzeText(instance.TextToModerate);
+
+                // Get the Hate Score
+                var hateScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Hate);
+                instance.HateScore = hateScore.Severity;
+
+                // Get the Hate Score
+                var violenceScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Violence);
+                instance.ViolenceScore = violenceScore.Severity;
+
+                // Get the Hate Score
+                var harmScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.SelfHarm);
+                instance.SelfHarmScore = harmScore.Severity;
+
+                // Get the Hate Score
+                var sexScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Sexual);
+                instance.SexualScore = sexScore.Severity;
+
+                
             }
             catch (Exception ex)
             {

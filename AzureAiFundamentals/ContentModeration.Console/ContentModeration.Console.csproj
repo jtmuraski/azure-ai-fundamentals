@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AzureAI.ContentModeration.Text\AzureAI.ContentModeration.Text.csproj" />
     <ProjectReference Include="..\AzureAI.Core\AzureAI.Core.csproj" />
   </ItemGroup>
 
