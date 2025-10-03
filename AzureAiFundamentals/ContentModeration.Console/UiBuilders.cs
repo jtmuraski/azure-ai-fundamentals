@@ -12,13 +12,19 @@ namespace ContentModeration.Console
     {
         public static void DisplayResults(TextModerationInstance instance)
         {
-            var table = new Table();
+            var table = new Spectre.Console.Table();
 
-            table.AddRow("Severity Scores").Width(4);
-            table.AddColumn("Hatred")
-            table.AddColumn("Hatred");
-            table.AddColumn("Hatred");
-            table.AddColumn("Hatred");
+            table.Title("Text Moderation Results");
+            table.AddColumn("Hatred Score").Centered();
+            table.AddColumn("Violence Score").Centered();
+            table.AddColumn("Self Harm Score").Centered();
+            table.AddColumn("Sexural Score").Centered();
+            table.AddRow(instance.HateScore.ToString(), 
+                instance.ViolenceScore.ToString(), 
+                instance.SelfHarmScore.ToString(), 
+                instance.SexualScore.ToString());
+
+            AnsiConsole.Write(table);
             return;
         }
     }

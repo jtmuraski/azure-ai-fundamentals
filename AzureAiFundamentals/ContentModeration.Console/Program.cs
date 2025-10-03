@@ -78,7 +78,7 @@ while(continueApp)
     switch (choice)
     {
         case "1. Moderate Text":
-            textModeration.ModerateTextWithoutBlockList();
+            textModeration.StartNewTextModeration();
             break;
         case "9. Exit":
             continueApp = false;

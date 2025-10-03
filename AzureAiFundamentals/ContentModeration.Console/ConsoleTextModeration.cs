@@ -11,6 +11,7 @@ using Serilog;
 using Figgle;
 using Figgle.Fonts;
 using AzureAI.ContentModeration.Text.Models;
+using static ContentModeration.Console.UiBuilders;
 
 namespace ContentModeration.Console
 {
@@ -92,6 +93,7 @@ namespace ContentModeration.Console
                 var sexScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Sexual);
                 instance.SexualScore = sexScore.Severity;
 
+                DisplayResults(instance);
                 
             }
             catch (Exception ex)
