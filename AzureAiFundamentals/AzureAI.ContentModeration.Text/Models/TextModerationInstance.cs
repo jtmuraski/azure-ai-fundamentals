@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AzureAI.ContentModeration.Text.Models;
+using AzureAI.ContentModeration.Text.Utils;
 
 namespace AzureAI.ContentModeration.Text.Models
 {
@@ -15,6 +17,50 @@ namespace AzureAI.ContentModeration.Text.Models
         public int? SelfHarmScore { get => selfHarmScore; set => selfHarmScore = value; }
         public int? SexualScore { get => sexualScore; set => sexualScore = value; }
         public int? ViolenceScore { get => violenceScore; set => violenceScore = value; }
+
+        public SeverityLevel HateSeverity 
+        { 
+            get 
+            {
+                if(hateScore.HasValue)
+                    return SeverityCheck.CheckSeverity(hateScore.Value);
+                else
+                    return SeverityLevel.Low;
+            }
+        }
+
+        public SeverityLevel SelfHarmSeverity
+        {
+            get
+            {
+                if (selfHarmScore.HasValue)
+                    return SeverityCheck.CheckSeverity(selfHarmScore.Value);
+                else
+                    return SeverityLevel.Low;
+            }
+        }
+
+        public SeverityLevel SexualSeverity
+        {
+            get
+            {
+                if (sexualScore.HasValue)
+                    return SeverityCheck.CheckSeverity(sexualScore.Value);
+                else
+                    return SeverityLevel.Low;
+            }
+        }
+
+        public SeverityLevel ViolenceSeverity
+        {
+            get
+            {
+                if (violenceScore.HasValue)
+                    return SeverityCheck.CheckSeverity(violenceScore.Value);
+                else
+                    return SeverityLevel.Low;
+            }
+        }   
 
         // ---Fields---
         private string textToModerate;

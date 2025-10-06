@@ -81,15 +81,15 @@ namespace ContentModeration.Console
                 var hateScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Hate);
                 instance.HateScore = hateScore.Severity;
 
-                // Get the Hate Score
+                // Get the Vioolence Score
                 var violenceScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Violence);
                 instance.ViolenceScore = violenceScore.Severity;
 
-                // Get the Hate Score
+                // Get the SelfHarm Score
                 var harmScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.SelfHarm);
                 instance.SelfHarmScore = harmScore.Severity;
 
-                // Get the Hate Score
+                // Get the Sexual Score
                 var sexScore = response.Value.CategoriesAnalysis.FirstOrDefault(cat => cat.Category == TextCategory.Sexual);
                 instance.SexualScore = sexScore.Severity;
 
