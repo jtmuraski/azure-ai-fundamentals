@@ -13,62 +13,23 @@ namespace AzureAI.ContentModeration.Text.Models
         // ---Properties---
         public string TextToModerate { get => textToModerate; set => textToModerate = value; }
         public List<string> BlockList { get => blockList; set => blockList = value; }
-        public int? HateScore { get => hateScore; set => hateScore = value; }
-        public int? SelfHarmScore { get => selfHarmScore; set => selfHarmScore = value; }
-        public int? SexualScore { get => sexualScore; set => sexualScore = value; }
-        public int? ViolenceScore { get => violenceScore; set => violenceScore = value; }
+        public int HateScore { get => hateScore; set => hateScore = value; }
+        public int SelfHarmScore { get => selfHarmScore; set => selfHarmScore = value; }
+        public int SexualScore { get => sexualScore; set => sexualScore = value; }
+        public int ViolenceScore { get => violenceScore; set => violenceScore = value; }
 
-        public SeverityLevel HateSeverity 
-        { 
-            get 
-            {
-                if(hateScore.HasValue)
-                    return SeverityCheck.CheckSeverity(hateScore.Value);
-                else
-                    return SeverityLevel.Low;
-            }
-        }
-
-        public SeverityLevel SelfHarmSeverity
-        {
-            get
-            {
-                if (selfHarmScore.HasValue)
-                    return SeverityCheck.CheckSeverity(selfHarmScore.Value);
-                else
-                    return SeverityLevel.Low;
-            }
-        }
-
-        public SeverityLevel SexualSeverity
-        {
-            get
-            {
-                if (sexualScore.HasValue)
-                    return SeverityCheck.CheckSeverity(sexualScore.Value);
-                else
-                    return SeverityLevel.Low;
-            }
-        }
-
-        public SeverityLevel ViolenceSeverity
-        {
-            get
-            {
-                if (violenceScore.HasValue)
-                    return SeverityCheck.CheckSeverity(violenceScore.Value);
-                else
-                    return SeverityLevel.Low;
-            }
-        }   
+        public SeverityLevel HateSeverity => SeverityCheck.CheckSeverity(hateScore);
+        public SeverityLevel SelfHarmSeverity => SeverityCheck.CheckSeverity(selfHarmScore);
+        public SeverityLevel SexualSeverity => SeverityCheck.CheckSeverity(sexualScore);
+        public SeverityLevel ViolenceSeverity => SeverityCheck.CheckSeverity(violenceScore);
 
         // ---Fields---
         private string textToModerate;
         private List<string> blockList;
-        private int? hateScore;
-        private int? selfHarmScore;
-        private int? sexualScore;
-        private int? violenceScore;
+        private int hateScore = 0;
+        private int selfHarmScore = 0;
+        private int sexualScore = 0;
+        private int violenceScore = 0;
 
         // ---Constructors---
         public TextModerationInstance()
