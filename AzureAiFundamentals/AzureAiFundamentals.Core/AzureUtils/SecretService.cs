@@ -10,9 +10,6 @@ namespace AzureAiFundamentals.Core.AzureUtils
 {
     public class SecretService : ISecretService
     {
-        private static readonly string keyUrl = Environment.GetEnvironmentVariable("AZURE_KEYVAULT_URL") ??
-                                               throw new ArgumentNullException("KEY_VAULT_URL environment variable is not set.");
-
         private readonly SecretClient _client;
 
         // Constructor for testing (DI)
