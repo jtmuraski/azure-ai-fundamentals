@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -8,6 +11,7 @@ using Azure.Security.KeyVault.Secrets;
 using Azure.AI.ContentSafety;
 using Azure.Identity;
 using Azure;
+using AzureAiFundamentals.Core.Models;
 
 namespace AiFundamentalFunctions;
 
@@ -15,17 +19,31 @@ public class TextModeration
 {
     private readonly ILogger<TextModeration> _logger;
     private readonly string _keyUrl;
+    private readonly SecretClient _secretClient;
 
     public TextModeration(ILogger<TextModeration> logger)
     {
         _logger = logger;
         _keyUrl = Environment.GetEnvironmentVariable("AZURE_KEYVAULT_URL") ?? string.Empty;
+        _secretClient = new SecretClient(new Uri(_keyUrl), new DefaultAzureCredential());
+
+
     }
 
     [Function("TextModeration")]
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
     {
         _logger.LogInformation("C# HTTP trigger function processed a request.");
+
+        try
+        {
+            var moderationRequest = await ReadRequestAsync(req);
+        }
+        catch(Exception ex)
+        {
+
+        }
+
 
         try
         {
@@ -45,7 +63,13 @@ public class TextModeration
             _logger.LogError($"Error during content moderation: {ex.Message}");
             return new StatusCodeResult(StatusCodes.Status500InternalServerError);
         }
+    }
 
-       
+    private async Task<TextModerationRequest> ReadRequestAsync(HttpRequest req)
+    {
+        try
+        {
+
+        }
     }
 }
