@@ -12,6 +12,7 @@ using Azure.AI.ContentSafety;
 using Azure.Identity;
 using Azure;
 using AzureAiFundamentals.Core.Models;
+using System.Collections;
 
 namespace AiFundamentalFunctions;
 
@@ -69,7 +70,19 @@ public class TextModeration
     {
         try
         {
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            if(string.IsNullOrWhiteSpace(requestBody))
+            {
+                return null;
+            }
 
+            return JsonSerializer.Deserialize<TextModerationRequest>(requestBody, 
+                                                                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"Unexpected error when reading HTTP Request body: {ex.ToString()}");
+            return null;
         }
     }
 }
